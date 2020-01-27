@@ -1,0 +1,69 @@
+﻿@model TiTSproj.Models.Produkty
+    @using TiTSproj.Infrastructure
+@{
+    ViewBag.Title = "Szczegoly";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="ListaKategoriZawartosc">
+    @Html.Action("KategorieMenu")
+    <div id="KategorieListPrawaSekcja">
+        <div id="Breadcrumb">
+            <img src="@Url.Content("~/Content/Images/dommaly.png")" />
+            <a href="link">
+                @Html.MvcSiteMap().SiteMapPath()
+            </a>
+        </div>
+        <section id="SekcjaKurs">
+            <div id="KursLewa">
+                <img src="@Url.ObrazkiSciezka(Model.NazwaPlikuObrazka)" />
+            </div>
+            @if (Model.Ilosc > 0)
+            {
+
+
+            <div id="KursPrawa">
+                <div id="ProduktyNazwa">
+                    <h1>
+                        @Model.NazwaProduktu
+                    </h1>
+                </div>
+                <div id="ProduktyCena" style="margin-top: 20px; font-weight: bold; display: block;">
+                    <div>
+                        @Model.CenaProduktu<span>PLN</span>
+                    </div>
+                    <a href="@Url.Action("DodajDoKoszyka", "Koszyk", new { id = Model.ProduktId })"></a>
+                </div>
+                <div id="ProduktyIlosc" style="margin-top: 20px; font-weight: bold; display: block;">
+
+                    <div>
+                        <span>Ilość: </span>@Model.Ilosc
+                    </div>
+                </div>
+                <div id="ProduktyOpis">
+                    @Model.OpisProduktu
+                </div>
+
+                <a class="dodajDoKoszykaLink" href="@Url.Action("DodajDoKoszyka", "Koszyk", new { id = Model.ProduktId })" style="margin-top: 20px; font-weight: bold; display: block;">
+                    <img src="~/Content/Images/koszyk-details.png" />
+                </a>
+                
+            </div>
+            }
+            else
+            {
+            <div id="niedostepne" style="margin-top: 20px; font-weight: bold; display: block;">
+                <div id="ProduktyNazwa">
+                    <h1>
+                        @Model.NazwaProduktu
+                    </h1>
+                </div>
+                <span>
+                    Niedostępne
+                </span>
+            </div>
+            }
+        </section>
+    </div>
+</div>
+

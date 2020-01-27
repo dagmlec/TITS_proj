@@ -1,0 +1,67 @@
+﻿@model TiTSproj.ViewModels.KoszykViewModel 
+@using TiTSproj.Infrastructure
+@{
+    ViewBag.Title = "Koszyk";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{bool mgPlacic = true; }
+
+<div id="ListaKategoriZawartosc">
+    @Html.Action("KategorieMenu", "Produkty")
+    <div id="KategorieListPrawaSekcja">
+        <div id="Breadcrumb">
+            <img src="@Url.Content("~/Content/Images/dommaly.png")" />
+            <a href="link">
+                @Html.MvcSiteMap().SiteMapPath()
+            </a>
+        </div>
+        <section class="SekcjaKoszyk">
+            <div class="SekcjaHeader" style="margin-bottom: 0px;">
+                <h1>Twój koszyk</h1>
+            </div>
+            <table id="koszykTabela">
+                @foreach (var pozycjaKoszyka in Model.PozycjeKoszyka)
+                {
+                    <tr id="koszyk-wiersz-@pozycjaKoszyka.Produkty.ProduktId">
+                        <td>
+                            <a href="@Url.Action("Szczegoly", "Produkty", new { id = pozycjaKoszyka.Produkty.ProduktId })">
+                                <img src="@Url.Content("~/Content/Produkty/" + pozycjaKoszyka.Produkty.NazwaPlikuObrazka)" />
+                            </a>
+                        </td>
+                        <td><a href="@Url.Action("Szczegoly", "Produkty", new { id = pozycjaKoszyka.Produkty.ProduktId })">@pozycjaKoszyka.Produkty.NazwaProduktu</a></td>
+                        <td>
+                            Ilość: <span id="koszyk-ilosc-pozycji-@pozycjaKoszyka.Produkty.ProduktId">@pozycjaKoszyka.Ilosc</span>  
+                        @if (pozycjaKoszyka.Ilosc > pozycjaKoszyka.Produkty.Ilosc)
+                        {
+                            mgPlacic = false; 
+                            <span style="color:crimson"> Sprawdź ilość produktu </span>}
+                        </td>
+                        <td>@String.Format("{0:0.##}", pozycjaKoszyka.Wartosc) zł</td>
+                        <td><a class="UsunZKoszyka" data-id="@pozycjaKoszyka.Produkty.ProduktId" href="@Url.Action("UsunZKoszyka","Koszyk", new { produktId = pozycjaKoszyka.Produkty.ProduktId })">Usuń</a></td>
+                    </tr>
+                }
+                <tr id="koszyk-empty-message" @if (Model.PozycjeKoszyka != null && Model.PozycjeKoszyka.Count > 0) { <text> class="hidden" </text> }>
+                    <td>Twój koszyk jest pusty :(</td>
+                </tr>
+            </table>
+            <div id="CenaCalkowita" style="">
+                Razem: <span id="calkowita-cena-wartosc">@String.Format("{0:0.##}", Model.CenaCalkowita)</span> zł
+            </div>
+            <div class="SekcjaPrzyciski">
+                <a class="PrzyciskLink" href="@Url.Content("~/")">Kontynuuj zakupy</a>
+                @if (Model.CenaCalkowita > 0)
+                {
+                    if (mgPlacic == true)
+                    {
+                        <a class="PrzyciskLink" id="koszyk-button-zaplac" href="@Url.Action("Zaplac", "Koszyk")">Zapłać</a>
+                    }
+                    else
+                    { <span>Nie możesz przejść dalej :(</span>}
+                }
+
+            </div>
+        </section>
+    </div>
+</div>
+

@@ -1,0 +1,61 @@
+﻿@model TiTSproj.ViewModels.HomeViewModel
+    @using TiTSproj.Infrastructure
+@{
+    ViewBag.Title = "Sklep odzieżowy";
+}
+
+<nav class="kategorieHorizontal">
+    <ul>
+        @foreach (var kategoria in Model.Kategorie)
+        {
+            <li>
+                <a href="@Url.Action("Lista", "Produkty", new {nazwaKategorii = kategoria.NazwaKategorii.ToLower()})"
+                   style="background-image: url(@Url.KategorieIkonySciezka(kategoria.NazwaPlikuIkony));">
+                    @kategoria.NazwaKategorii
+                </a>
+            </li>
+        }
+    </ul>
+
+</nav>
+
+<section>
+    <ul class="KursyTrzyKolumny duzaListaProdukty">
+        @foreach (var bestseller in Model.Bestsellery)
+        {
+            <li>
+                <article>
+                    <a class="dodajDoKoszykaLink" href="@Url.Action("DodajDoKoszyka", "Koszyk", new { id = bestseller.ProduktId })">
+                        <img src="../Content/Images/koszyk.png" />
+                    </a>
+                    <a class="kursSzczegolyLink" href="@Url.Action("Szczegoly", "Produkty", new { id = bestseller.ProduktId })">
+                        <div class="bestsellerFlag"></div>
+                        <img class="produkt" src="@Url.ObrazkiSciezka(bestseller.NazwaPlikuObrazka)" />
+
+                    </a>
+                </article>
+            </li>
+        }
+    </ul>
+
+</section>
+<section>
+    <ul class="KursyTrzyKolumny duzaListaProdukty">
+        @foreach (var nowosc in Model.Nowosci)
+        {
+            <li>
+                <article>
+                    <a class="dodajDoKoszykaLink" href="@Url.Action("DodajDoKoszyka", "Koszyk", new { id= nowosc.ProduktId})">
+                        <img src="../Content/Images/koszyk.png" />
+                    </a>
+                    <a class="kursSzczegolyLink" href="@Url.Action("Szczegoly", "Produkty", new { id = nowosc.ProduktId })">
+                        <div class="newFlag"></div>
+                        <img class="produkt" src="@Url.ObrazkiSciezka(nowosc.NazwaPlikuObrazka)" />
+
+                    </a>
+                </article>
+            </li>
+        }
+    </ul>
+</section>
+

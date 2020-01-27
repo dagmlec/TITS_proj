@@ -1,0 +1,21 @@
+﻿@model IEnumerable<TiTSproj.Models.Produkty>
+@using TiTSproj.Infrastructure
+<div id="SekcjaListaKategori">
+    <ul class="KursyTrzyKolumny MalaListaKategorii">
+        @foreach (var produkt in Model)
+        {
+            <li>
+                <article>
+                    <a class="dodajDoKoszykaLink" href="@Url.Action("DodajDoKoszyka","Koszyk", new { id = produkt.ProduktId })">
+                        <img src="@Url.Content("~/Content/Images/koszyk.png")" />
+                    </a>
+                    
+                        <a class="kursSzczegolyLink" href="@Url.Action("Szczegoly","Produkty", new { id = produkt.ProduktId })">
+                            <img class="kurs" src="@Url.ObrazkiSciezka(produkt.NazwaPlikuObrazka)" />
+
+                        </a>
+                    </article>
+            </li>
+        }
+    </ul>
+</div>
